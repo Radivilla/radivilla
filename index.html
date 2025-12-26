@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RADIVILLA — Matemáticas claras, sin humo</title>
+  <meta name="description" content="RADIVILLA: matemáticas claras, ideas simples, aprendizaje real. Recursos, videos cortos y guías para avanzar." />
+  <style>
+    :root{
+      --bg:#0b0f1a;
+      --card:#10182a;
+      --muted:#9fb0d0;
+      --text:#eaf0ff;
+      --line:rgba(255,255,255,.08);
+      --accent:#7c5cff;   /* morado */
+      --accent2:#00d2ff;  /* cyan */
+      --good:#38d996;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --max: 1120px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(124,92,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(0,210,255,.16), transparent 60%),
+        radial-gradient(700px 420px at 50% 110%, rgba(56,217,150,.10), transparent 60%),
+        var(--bg);
+      line-height:1.35;
+    }
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,26,.6);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.5px;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 26px rgba(124,92,255,.28);
+      display:grid;place-items:center;
+      font-weight:900;
+    }
+    .nav-links{display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end}
+    .nav-links a{
+      padding:8px 10px;border-radius:12px;
+      color:var(--muted);
+    }
+    .nav-links a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.14)}
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 16px 34px rgba(0,210,255,.14), 0 16px 34px rgba(124,92,255,.14);
+      font-weight:700;
+    }
+    .btn.primary:hover{transform: translateY(-2px)}
+    .btn.ghost{background:transparent}
+    .hero{
+      padding:34px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+    .card{
+      background: rgba(16,24,42,.72);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .hero h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 4vw, 52px);
+      letter-spacing:-.8px;
+      line-height:1.04;
+    }
+    .subtitle{color:var(--muted); font-size: clamp(15px, 1.6vw, 18px); margin:0 0 16px}
+    .pill-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .pill{
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:var(--muted);
+      background: rgba(255,255,255,.04);
+      font-size:13px;
+    }
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .mini{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .mini strong{display:block; margin-bottom:4px}
+    .mini p{margin:0; color:var(--muted); font-size:14px}
+    .icon{
+      width:34px; height:34px; border-radius:12px;
+      display:grid; place-items:center;
+      background: rgba(124,92,255,.18);
+      border:1px solid rgba(124,92,255,.25);
+      flex:0 0 auto;
+    }
+
+    section{padding:14px 0}
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+      margin:10px 0 12px;
+    }
+    .section-title h2{margin:0; font-size:22px}
+    .section-title p{margin:0; color:var(--muted); font-size:14px}
+
+    .grid3{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+    }
+    @media (max-width: 920px){ .grid3{grid-template-columns:1fr} }
+
+    .list{margin:0; padding-left:18px; color:var(--muted)}
+    .kpi{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:12px;
+    }
+    @media (max-width: 560px){ .kpi{grid-template-columns:1fr} }
+    .kpi .box{
+      padding:12px; border-radius:16px; border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    .kpi .box .num{font-size:20px; font-weight:800}
+    .kpi .box .lbl{color:var(--muted); font-size:13px}
+
+    .divider{height:1px; background:var(--line); margin:14px 0}
+    .two{
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+    }
+    @media (max-width: 920px){ .two{grid-template-columns:1fr} }
+
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+    }
+    textarea{min-height:110px; resize:vertical}
+    label{display:block; margin:10px 0 8px; color:var(--muted); font-size:13px}
+    .footer{
+      padding:24px 0 30px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(16,24,42,.92);
+      border:1px solid var(--line);
+      padding:10px 12px; border-radius:14px;
+      box-shadow: var(--shadow);
+      display:none;
+      max-width:min(520px, calc(100% - 24px));
+    }
+    .toast.show{display:block}
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px; border-radius:999px;
+      background: rgba(56,217,150,.12);
+      border:1px solid rgba(56,217,150,.2);
+      color: #bff7df;
+      font-size:13px;
+    }
+    .small{font-size:12px; color:var(--muted)}
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <a class="brand" href="#inicio" aria-label="Ir al inicio">
+          <div class="logo">R</div>
+          <div>
+            <div>RADIVILLA</div>
+            <div class="small">Matemáticas claras</div>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <a href="#acerca">Acerca</a>
+          <a href="#contenido">Contenido</a>
+          <a href="#recursos">Recursos</a>
+          <a href="#testimonios">Testimonios</a>
+          <a href="#contacto">Contacto</a>
+          <a class="btn primary" href="#recursos">Unirme</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="inicio">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="card">
+          <div class="badge">⚡ Matemáticas sin humo • ideas simples</div>
+          <h1>Aprende con claridad.<br/>Sin tecnicismos innecesarios.</h1>
+          <p class="subtitle">
+            Soy <strong>RADIVILLA</strong>. Subo videos cortos y recursos para que avances de verdad:
+            desde “lo básico que te faltó” hasta el nivel que necesitas para pasar exámenes y entender.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#recursos">📌 Ver recursos</a>
+            <a class="btn" href="#contenido">🎥 Ver contenido</a>
+            <button class="btn ghost" id="copyLinkBtn" type="button">🔗 Copiar link</button>
+          </div>
+
+          <div class="pill-row" aria-label="Temas">
+            <div class="pill">Cálculo (integrales)</div>
+            <div class="pill">Álgebra</div>
+            <div class="pill">Ideas rápidas (20s)</div>
+            <div class="pill">Ingreso a la uni</div>
+          </div>
+
+          <div class="kpi">
+            <div class="box">
+              <div class="num" id="kpiFollowers">600+</div>
+              <div class="lbl">Comunidad</div>
+            </div>
+            <div class="box">
+              <div class="num">Reels</div>
+              <div class="lbl">Cortos y directos</div>
+            </div>
+            <div class="box">
+              <div class="num">Guías</div>
+              <div class="lbl">PDFs y ejercicios</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="mini">
+            <div class="icon">🧠</div>
+            <div>
+              <strong>Estilo RADIVILLA</strong>
+              <p>Metáforas cotidianas, ejemplos simples y cero relleno.</p>
+            </div>
+          </div>
+          <div style="height:10px"></div>
+          <div class="mini">
+            <div class="icon">📚</div>
+            <div>
+              <strong>Recursos gratuitos</strong>
+              <p>Libretas, apuntes y ejercicios para practicar sin perderte.</p>
+            </div>
+          </div>
+          <div style="height:10px"></div>
+          <div class="mini">
+            <div class="icon">🚀</div>
+            <div>
+              <strong>Ruta de avance</strong>
+              <p>Te digo qué hacer primero para que no estudies a ciegas.</p>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="small">
+            Tip: cambia “600+” y los enlaces de redes/Drive/Telegram por los tuyos.
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACERCA -->
+  <section id="acerca">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Acerca</h2>
+        <p>Una página simple y elegante para presentarte.</p>
+      </div>
+
+      <div class="two">
+        <div class="card">
+          <h3 style="margin:0 0 8px">¿Qué es RADIVILLA?</h3>
+          <p style="margin:0; color:var(--muted)">
+            Un proyecto para explicar matemáticas como deberían explicarse:
+            <strong>con claridad</strong>, <strong>con ejemplos reales</strong> y <strong>con práctica</strong>.
+            Si te frustraste con el “así es y ya”, aquí lo aterrizamos.
+          </p>
+
+          <div class="divider"></div>
+
+          <h3 style="margin:0 0 8px">Para quién</h3>
+          <ul class="list">
+            <li>Adultos curiosos que quieren entender (sin pena).</li>
+            <li>Estudiantes que necesitan “recuperar bases”.</li>
+            <li>Gente que se prepara para ingreso a la universidad.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px">Promesa</h3>
+          <p style="margin:0; color:var(--muted)">
+            Cada video intenta dejarte <strong>una idea clara</strong>. No impresionar, sino entender.
+          </p>
+
+          <div class="divider"></div>
+
+          <h3 style="margin:0 0 8px">Manifiesto corto</h3>
+          <p style="margin:0; color:var(--muted)">
+            “Aprender matemáticas no es memorizar pasos: es aprender a pensar con orden.”
+          </p>
+
+          <div class="pill-row" style="margin-top:14px">
+            <span class="pill">Constancia</span>
+            <span class="pill">Ejercicios diarios</span>
+            <span class="pill">Explicación humana</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENIDO -->
+  <section id="contenido">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Contenido</h2>
+        <p>Ideas rápidas, series y mini-retos.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="card">
+          <h3 style="margin:0 0 8px">🎥 Reels de 20s</h3>
+          <p style="margin:0; color:var(--muted)">
+            Una idea por video. Metáfora + ejemplo + remate.
+          </p>
+          <div class="divider"></div>
+          <p class="small" style="margin:0">
+            Ejemplo: infinito, límites, integrales “sin terror”, algebra de supervivencia.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px">📌 Series</h3>
+          <p style="margin:0; color:var(--muted)">
+            Contenido por niveles: Base → Intermedio → Examen.
+          </p>
+          <div class="divider"></div>
+          <ul class="list">
+            <li>Integración: fundamentos</li>
+            <li>Problemas tipo examen</li>
+            <li>Errores comunes</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px">🧩 Retos semanales</h3>
+          <p style="margin:0; color:var(--muted)">
+            Un problema y una solución aparte (para que sí practiques).
+          </p>
+          <div class="divider"></div>
+          <a class="btn" href="#recursos">Ver PDFs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <section id="recursos">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Recursos</h2>
+        <p>Drive, Telegram, links y descargas.</p>
+      </div>
+
+      <div class="two">
+        <div class="card">
+          <h3 style="margin:0 0 10px">📎 Libro/Apuntes (Drive)</h3>
+          <p style="margin:0; color:var(--muted)">
+            Aquí puedes poner el link a tu “Introducción a la Integración” o a tu carpeta con PDFs.
+          </p>
+          <div class="hero-actions" style="margin-top:14px">
+            <!-- CAMBIA ESTE ENLACE -->
+            <a class="btn primary" target="_blank" rel="noopener" href="https://drive.google.com/">Abrir Drive</a>
+            <button class="btn" type="button" data-copy="https://drive.google.com/">Copiar link</button>
+          </div>
+          <div class="divider"></div>
+          <p class="small" style="margin:0">
+            Tip: usa un link público solo lectura.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 10px">📣 Comunidad (Telegram/WhatsApp)</h3>
+          <p style="margin:0; color:var(--muted)">
+            Aquí pones tu canal o grupo para avisos, recursos y retos.
+          </p>
+          <div class="hero-actions" style="margin-top:14px">
+            <!-- CAMBIA ESTE ENLACE -->
+            <a class="btn primary" target="_blank" rel="noopener" href="https://t.me/">Unirme</a>
+            <button class="btn" type="button" data-copy="https://t.me/">Copiar link</button>
+          </div>
+          <div class="divider"></div>
+          <p class="small" style="margin:0">
+            También puedes poner un formulario de registro.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Testimonios</h2>
+        <p>Prueba social simple (edítalo a tu estilo).</p>
+      </div>
+
+      <div class="grid3">
+        <div class="card">
+          <p style="margin:0 0 10px">“Por fin entendí lo de integrales sin sentirme tonto.”</p>
+          <div class="small">— Estudiante</div>
+        </div>
+        <div class="card">
+          <p style="margin:0 0 10px">“Explica como persona normal, no como libro.”</p>
+          <div class="small">— Seguidor</div>
+        </div>
+        <div class="card">
+          <p style="margin:0 0 10px">“Me ordenó el camino: qué estudiar y en qué orden.”</p>
+          <div class="small">— Aspirante a ingreso</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Contacto</h2>
+        <p>Para asesorías, colaboraciones o dudas.</p>
+      </div>
+
+      <div class="two">
+        <div class="card">
+          <h3 style="margin:0 0 8px">📬 Escríbeme</h3>
+          <p style="margin:0; color:var(--muted)">
+            Este formulario no envía por sí solo (por ser HTML simple), pero puedes:
+            1) poner tu correo directo, o 2) conectarlo a Formspree / Google Forms.
+          </p>
+
+          <div class="divider"></div>
+
+          <form id="contactForm">
+            <label for="name">Nombre</label>
+            <input id="name" name="name" placeholder="Tu nombre" required />
+
+            <label for="email">Correo</label>
+            <input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com" required />
+
+            <label for="msg">Mensaje</label>
+            <textarea id="msg" name="msg" placeholder="¿En qué te puedo ayudar?" required></textarea>
+
+            <div class="hero-actions" style="margin-top:12px">
+              <button class="btn primary" type="submit">Enviar (copiar mensaje)</button>
+              <button class="btn" type="button" id="copyEmailBtn">Copiar correo</button>
+            </div>
+          </form>
+
+          <p class="small" style="margin:12px 0 0">
+            Correo: <span id="emailText">radivilla.contacto@gmail.com</span>
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px">🔗 Redes</h3>
+          <p style="margin:0; color:var(--muted)">Cambia estos enlaces por los tuyos:</p>
+
+          <div class="hero-actions" style="margin-top:14px">
+            <a class="btn" target="_blank" rel="noopener" href="https://facebook.com/">Facebook</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://instagram.com/">Instagram</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://tiktok.com/">TikTok</a>
+            <a class="btn" target="_blank" rel="noopener" href="https://youtube.com/">YouTube</a>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="margin:0 0 8px">⚙️ CTA sugerido</h3>
+          <p style="margin:0; color:var(--muted)">
+            “Si al final del año llegamos a <strong>1000</strong>, abro un curso gratis de ingreso.”
+          </p>
+          <div style="height:10px"></div>
+          <a class="btn primary" href="#recursos">A darle con garra 🚀</a>
+        </div>
+      </div>
+
+      <div class="footer wrap">
+        <div class="divider"></div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center">
+          <div>© <span id="year"></span> RADIVILLA</div>
+          <div class="small">Hecho para una sola página — rápida y bonita.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Utilidades
+    const toast = (msg) => {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=> el.classList.remove("show"), 2200);
+    };
+
+    const copyToClipboard = async (text) => {
+      try{
+        await navigator.clipboard.writeText(text);
+        toast("Copiado ✅");
+      }catch(e){
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("Copiado ✅");
+      }
+    };
+
+    // Año en footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Botón copiar link del sitio
+    document.getElementById("copyLinkBtn").addEventListener("click", () => {
+      copyToClipboard(window.location.href);
+    });
+
+    // Botones data-copy
+    document.querySelectorAll("[data-copy]").forEach(btn => {
+      btn.addEventListener("click", () => copyToClipboard(btn.getAttribute("data-copy")));
+    });
+
+    // Copiar correo
+    document.getElementById("copyEmailBtn").addEventListener("click", () => {
+      copyToClipboard(document.getElementById("emailText").textContent.trim());
+    });
+
+    // Formulario: copia un “mensaje listo” para pegar en WhatsApp/Correo
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const msg = document.getElementById("msg").value.trim();
+
+      const packed =
+`RADIVILLA - Contacto
+Nombre: ${name}
+Correo: ${email}
+
+Mensaje:
+${msg}
+`;
+      copyToClipboard(packed);
+      toast("Mensaje copiado para pegar ✅");
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
